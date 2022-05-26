@@ -26,6 +26,8 @@ jobs:
         distribution: 'temurin'
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+    - name: check gradle v
+      run: ./gradlew -v
     - name: Test with Gradle
       run: ./gradlew testCoverage
     - name: Upload coverage to CodeCov
