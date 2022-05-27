@@ -59,6 +59,7 @@ jobs:
         username: ${{secrets.SSH_USERNAME}}
         port: ${{secrets.SSH_PORT}}
         password: ${{secrets.SSH_PRIVATE_KEY}}
+        env: GITHUB_SHA
         script: |
           docker pull ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${GITHUB_SHA::7}
           docker tag ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${GITHUB_SHA::7} spring-mysteam
