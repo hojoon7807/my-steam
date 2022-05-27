@@ -67,3 +67,18 @@ jobs:
         tags: ${{env.REGISTRY}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+    - name: Deploy
+      uses: appleboy/ssh-action@v0.1.4
+      env:
+        IMAGE_TAG: ${{steps.prep.outputs.tag}}
+      with:
+        host: ${{secrets.SSH_HOST}}
+        username: ${{secrets.SSH_USERNAME}}
+        port: ${{secrets.SSH_PORT}}
+        password: ${{secrets.SSH_PRIVATE_KEY}}
+        script: |
+          docker pull ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${{env.IMAGE_TAG}}
+          docker tag ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${{env.IMAGE_TAG}} spring-mysteam
+          docker stop spring-mysteam
+          docker run -d --rm --name spring-mysteam -p 8080:8080 spring-mysteam
+
