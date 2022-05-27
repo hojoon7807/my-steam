@@ -22,6 +22,11 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+    - name: Prepare
+      id: prep
+      run: |
+        TAG=$(echo $GITHUB_SHA | head -c7)
+        echo ::set-output name=tag::${TAG}
     - uses: actions/cache@v3
       with:
         path: |
@@ -55,9 +60,10 @@ jobs:
       env:
         REGISTRY:  ${{secrets.DOCKER_REGISTRY}}
         REPOSITORY: spring-mysteam
+        IMAGE_TAG: ${{steps.prep.outputs.tag}}
       with:
         context: .
         push: true
-        tags: ${{env.REGISTRY}}/${{env.REPOSITORY}}:latest
+        tags: ${{env.REGISTRY}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
         cache-from: type=gha
         cache-to: type=gha,mode=max
