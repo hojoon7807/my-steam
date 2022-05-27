@@ -52,3 +52,11 @@ jobs:
         docker build -t spring-mysteam .
         docker tag spring-mysteam ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${GITHUB_SHA::7}
         docker push ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${GITHUB_SHA::7}
+    - name: Deploy
+      uses: appleoby/ssh-action@v0.1.4
+      with:
+        host: ${{secrets.SSH_HOST}}
+        username: ${{secrets.SSH_USERNAME}}
+        port: ${{secrets.SSH_PORT}}
+        password: ${{secrets.SSH_PRIVATE_KEY}}
+        
