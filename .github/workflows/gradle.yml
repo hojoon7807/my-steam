@@ -72,9 +72,9 @@ jobs:
       env:
         IMAGE_TAG: ${{steps.prep.outputs.tag}}
       with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        host: "175.45.193.29"
+        username: "root"
+        password: ${{ secrets.SSH_PASSWORD }}
         script: |
           ls -al
           docker pull ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${{env.IMAGE_TAG}}
