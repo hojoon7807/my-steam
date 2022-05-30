@@ -64,7 +64,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{env.REGISTRY}}/${{env.REPOSITORY}}:latest
+        tags: ${{env.REGISTRY}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
         cache-from: type=gha
         cache-to: type=gha,mode=max
         
@@ -76,4 +76,4 @@ jobs:
       - name: run docker
         run: |
             docker ps -q --filter "name=spring-mysteam" | grep -q . && docker stop "spring-mysteam" && docker rmi ${{secrets.DOCKER_REGISTRY}}/spring-mysteam
-            docker run -d --rm --name spring-mysteam -p 8080:8080 ${{secrets.DOCKER_REGISTRY}}/spring-mysteam
+            docker run -d --rm --name spring-mysteam -p 8080:8080 ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${GITHUB_SHA::7}
