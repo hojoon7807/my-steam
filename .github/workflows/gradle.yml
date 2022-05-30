@@ -74,7 +74,7 @@ jobs:
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
-        password: ${{ secrets.SSH_PASSWORD }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           ls -al
           docker pull ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${{env.IMAGE_TAG}}
