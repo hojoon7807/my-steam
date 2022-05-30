@@ -75,6 +75,7 @@ jobs:
         host: "175.45.193.29"
         username: "root"
         password: ${{ secrets.SSH_PASSWORD }}
+        port: "22"
         script: |
           ls -al
           docker pull ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${{env.IMAGE_TAG}}
