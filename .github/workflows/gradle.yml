@@ -77,7 +77,6 @@ jobs:
         password: ${{secrets.SSH_PASSWORD}}
         port: ${{secrets.SSH_PORT}}
         script: |
-          ls -al
           docker pull ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${{env.IMAGE_TAG}}
           docker tag ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${{env.IMAGE_TAG}} spring-mysteam
           docker stop spring-mysteam
