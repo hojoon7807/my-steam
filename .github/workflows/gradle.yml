@@ -75,6 +75,6 @@ jobs:
       - name: run docker
         run: |
             docker ps -q --filter "name=spring-mysteam" | grep -q . && docker stop "spring-mysteam" && docker rmi "spring-mysteam"
-            docker pull mysteam.kr.ncr.ntruss.com/spring-mysteam:${GITHUB_SHA::7}"
+            docker pull mysteam.kr.ncr.ntruss.com/spring-mysteam:${GITHUB_SHA::7}
             docker tag mysteam.kr.ncr.ntruss.com/spring-mysteam:${GITHUB_SHA::7} spring-mysteam
             docker run -d --rm --name spring-mysteam -p 8080:8080 spring-mysteam
