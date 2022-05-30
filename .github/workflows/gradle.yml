@@ -75,7 +75,7 @@ jobs:
     steps:
       - name: run docker
         run: |
-            docker pull ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${{steps.prep.outputs.tag}}
-            docker tag ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${{steps.prep.outputs.tag}} spring-mysteam
+            docker pull ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${GITHUB_SHA::7}
+            docker tag ${{secrets.DOCKER_REGISTRY}}/spring-mysteam:${GITHUB_SHA::7} spring-mysteam
             docker stop spring-mysteam
             docker run -d --rm --name spring-mysteam -p 8080:8080 spring-mysteam
