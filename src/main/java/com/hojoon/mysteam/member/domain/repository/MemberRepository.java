@@ -1,10 +1,15 @@
 package com.hojoon.mysteam.member.domain.repository;
 
-public interface MemberRepository<T, ID> {
+import com.hojoon.mysteam.member.domain.model.Member;
+import java.util.Optional;
 
-  T save(T t);
+public interface MemberRepository {
 
-  T findById(ID id);
+  Member save(Member member);
 
-  void delete(ID id);
+  Optional<Member> findById(Long id);
+
+  Optional<Member> findByEmail(String email);
+
+  void delete(Long id);
 }
