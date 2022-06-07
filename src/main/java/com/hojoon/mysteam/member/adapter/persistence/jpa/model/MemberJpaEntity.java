@@ -1,8 +1,11 @@
 package com.hojoon.mysteam.member.adapter.persistence.jpa.model;
 
 import com.hojoon.mysteam.common.adapter.persistence.jpa.model.BaseTimeEntity;
+import com.hojoon.mysteam.member.domain.model.Role;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,12 +33,15 @@ public class MemberJpaEntity extends BaseTimeEntity {
   private String password;
   @Column(name = "phone_num")
   private String phoneNum;
+  @Enumerated(EnumType.STRING)
+  private Role role;
 
   @Builder
-  private MemberJpaEntity(String name, String email, String password, String phoneNum) {
+  private MemberJpaEntity(String name, String email, String password, String phoneNum, Role role) {
     this.name = name;
     this.email = email;
     this.password = password;
     this.phoneNum = phoneNum;
+    this.role = role;
   }
 }
