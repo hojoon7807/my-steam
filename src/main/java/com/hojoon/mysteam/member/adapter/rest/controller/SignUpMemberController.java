@@ -5,6 +5,7 @@ import com.hojoon.mysteam.member.adapter.rest.dto.response.SignUpMemberResponse;
 import com.hojoon.mysteam.member.application.usecase.CreateMemberPort;
 import com.hojoon.mysteam.member.domain.model.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,6 @@ public class SignUpMemberController {
   public ResponseEntity<SignUpMemberResponse> signUp(
       @RequestBody SignUpMemberRequest signUpMemberRequest) {
     Member member = createMemberUseCase.apply(signUpMemberRequest.toCommand());
-    return ResponseEntity.ok().body(new SignUpMemberResponse(member.getEmail()));
+    return new ResponseEntity<>(new SignUpMemberResponse(member.getEmail()), HttpStatus.CREATED);
   }
 }
