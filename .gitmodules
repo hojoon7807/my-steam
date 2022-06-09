@@ -1,4 +1,4 @@
 [submodule "mysteam-config"]
 	path = mysteam-config
-	url = https://github.com/hojoon7807/mysteam-config
+	url = git@github.com:hojoon7807/mysteam-config.git
 	branch = main
