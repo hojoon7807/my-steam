@@ -1,4 +1,4 @@
-package com.hojoon.mysteam.adapter.persistence.jpa.model;
+package com.hojoon.mysteam.member.adapter.persistence.jpa.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
