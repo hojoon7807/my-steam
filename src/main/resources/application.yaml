@@ -1,21 +1,45 @@
 server:
   servlet:
     context-path: /api
-jwt:
-  secret: mysteam
 
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/steam
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 1234
+  profiles:
+    active: local
 
+---
+
+spring:
+  profiles:
+    active:
+      on-profile: local
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       format_sql: true
-      ddl-auto: create
+      ddl-auto: create-drop
+    show-sql: true
+
+  logging:
+    level:
+      org:
+        hibernate:
+          SQL: DEBUG
+          type:
+            descriptor:
+              sql:
+                BasicBinder: TRACE
+
+---
+
+spring:
+  profiles:
+    active:
+      on-profile: dev
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      format_sql: true
+      ddl-auto: create-drop
     show-sql: true
 
   logging:
