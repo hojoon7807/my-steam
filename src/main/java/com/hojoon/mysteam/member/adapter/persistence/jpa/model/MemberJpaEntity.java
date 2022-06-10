@@ -37,7 +37,9 @@ public class MemberJpaEntity extends BaseTimeEntity {
   private Role role;
 
   @Builder
-  private MemberJpaEntity(String name, String email, String password, String phoneNum, Role role) {
+  private MemberJpaEntity(Long id, String name, String email, String password, String phoneNum,
+      Role role) {
+    this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;

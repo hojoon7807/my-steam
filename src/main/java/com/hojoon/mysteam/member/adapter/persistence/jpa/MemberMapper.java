@@ -22,6 +22,7 @@ public class MemberMapper {
 
   public MemberJpaEntity toJpaEntity(Member member) {
     return MemberJpaEntity.builder()
+        .id(member.getId())
         .email(member.getEmail())
         .password(member.getPassword())
         .phoneNum(member.getPhoneNum())
