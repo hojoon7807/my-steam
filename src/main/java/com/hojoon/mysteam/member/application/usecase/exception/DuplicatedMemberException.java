@@ -1,4 +1,4 @@
-package com.hojoon.mysteam.member.exception;
+package com.hojoon.mysteam.member.application.usecase.exception;
 
 import com.hojoon.mysteam.common.exception.BusinessException;
 
