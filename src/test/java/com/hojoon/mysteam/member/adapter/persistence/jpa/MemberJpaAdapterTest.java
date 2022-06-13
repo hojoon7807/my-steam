@@ -42,7 +42,7 @@ public class MemberJpaAdapterTest extends AbstractContainerBaseTest {
   @Test
   @Sql("MemberJpaAdapterTest.sql")
   @DisplayName("ID 정보가 유효하면 id에 해당하는 객체를 성공적으로 반환한다")
-  void findByMemberId() {
+  void findMemberById() {
     final Long ID = 1L;
 
     Optional<Member> member = memberJpaAdapter.findMemberById(ID);
@@ -55,7 +55,7 @@ public class MemberJpaAdapterTest extends AbstractContainerBaseTest {
 
   @Test
   @DisplayName("ID 정보가 유효하지 않으면 null을 반환한다")
-  void findByNotSavedMemberId() {
+  void findMemberByNotValidId() {
     final Long ID = 1L;
 
     Optional<Member> member = memberJpaAdapter.findMemberById(ID);
@@ -66,7 +66,7 @@ public class MemberJpaAdapterTest extends AbstractContainerBaseTest {
   @Test
   @Sql("MemberJpaAdapterTest.sql")
   @DisplayName("email 정보가 유효하면 email에 해당하는 객체를 성공적으로 반환한다")
-  void findByMemberEmail() {
+  void findMemberByEmail() {
     final String EMAIL = "hojoon@gmail.com";
 
     Optional<Member> member = memberJpaAdapter.findMemberByEmail(EMAIL);
@@ -79,11 +79,24 @@ public class MemberJpaAdapterTest extends AbstractContainerBaseTest {
 
   @Test
   @DisplayName("email 정보가 유효하지 않으면 null을 반환한다")
-  void findByNotSavedMemberEmail() {
+  void findMemberByNotValidEmail() {
     final String EMAIL = "hojoon@gmail.com";
 
     Optional<Member> member = memberJpaAdapter.findMemberByEmail(EMAIL);
 
     assertThat(member).isEmpty();
+  }
+
+  @Test
+  @Sql("MemberJpaAdapterTest.sql")
+  @DisplayName("ID 정보가 유효하면 ID에 해당하는 객체를 성공적으로 삭제")
+  void deleteMemberById() {
+    final Long ID = 1L;
+
+    memberJpaAdapter.deleteMemberById(ID);
+
+    Optional<Member> deletedMember = memberJpaAdapter.findMemberById(ID);
+
+    assertThat(deletedMember).isEmpty();
   }
 }
