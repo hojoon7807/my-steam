@@ -1,0 +1,53 @@
+server:
+  servlet:
+    context-path: /api
+
+spring:
+  profiles:
+    active: local
+
+---
+
+spring:
+  profiles:
+    active:
+      on-profile: local
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      format_sql: true
+      ddl-auto: create-drop
+    show-sql: true
+
+  logging:
+    level:
+      org:
+        hibernate:
+          SQL: DEBUG
+          type:
+            descriptor:
+              sql:
+                BasicBinder: TRACE
+
+---
+
+spring:
+  profiles:
+    active:
+      on-profile: dev
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      format_sql: true
+      ddl-auto: create-drop
+    show-sql: true
+
+  logging:
+    level:
+      org:
+        hibernate:
+          SQL: DEBUG
+          type:
+            descriptor:
+              sql:
+                BasicBinder: TRACE

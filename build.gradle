@@ -1,8 +1,8 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.0'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'org.asciidoctor.convert' version '1.5.8'
-	id 'java'
+  id 'org.springframework.boot' version '2.7.0'
+  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+  id 'org.asciidoctor.convert' version '1.5.8'
+  id 'java'
   id 'jacoco'
 }
 
@@ -11,85 +11,105 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
 }
-
-jacocoTestReport{
+jacoco {
+  toolVersion = '0.8.7'
+}
+jacocoTestReport {
   reports {
-    html.enabled true
-    xml.enabled false
-    csv.enabled false
-    html.destination file("$buildDir/jacocoHtml")
+    html.required = true
+    xml.required = true
+    csv.required = false
   }
 }
 
-test{
+test {
   useJUnitPlatform()
   jacoco {
     destinationFile = file("$buildDir/jacoco/jacoco.exec")
   }
 }
 
-task testCoverage(type:Test){
+task testCoverage(type: Test) {
   group 'verification'
   description 'Runs the unit tests with coverage'
 
   dependsOn(':test',
-  ':jacocoTestReport',
-  ':jacocoTestCoverageVerification')
+      ':jacocoTestReport',
+      ':jacocoTestCoverageVerification')
 
   tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
   tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
 }
 
-jacocoTestCoverageVerification{
-  violationRules{
+jacocoTestCoverageVerification {
+  violationRules {
     rule {
       element = "CLASS"
       enabled = true
-      limit{
+      limit {
         counter = "LINE"
         value = "COVEREDRATIO"
-        minimum = 0.70
+        minimum = 0.30
       }
-      limit{
+      limit {
         counter = "METHOD"
         value = "COVEREDRATIO"
-        minimum = 0.70
+        minimum = 0.30
       }
     }
   }
 }
 
 repositories {
-	mavenCentral()
+  mavenCentral()
 }
 
 ext {
-	set('snippetsDir', file("build/generated-snippets"))
+  set('snippetsDir', file("build/generated-snippets"))
+}
+
+jar {
+  enabled = false
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'mysql:mysql-connector-java'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'org.springframework.security:spring-security-test'
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  implementation 'org.springframework.boot:spring-boot-starter-security'
+  implementation 'org.springframework.boot:spring-boot-starter-validation'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+  runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+  runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+  compileOnly 'org.projectlombok:lombok'
+  runtimeOnly 'mysql:mysql-connector-java'
+  annotationProcessor 'org.projectlombok:lombok'
+  testImplementation "org.junit.jupiter:junit-jupiter:5.8.2"
+  testImplementation "org.testcontainers:junit-jupiter:1.17.1"
+  testImplementation "org.testcontainers:mysql:1.17.1"
+  testCompileOnly 'org.projectlombok:lombok'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+  testImplementation 'org.springframework.security:spring-security-test'
+  testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
-	outputs.dir snippetsDir
-	useJUnitPlatform()
+  outputs.dir snippetsDir
+  useJUnitPlatform()
 }
 
 tasks.named('asciidoctor') {
-	inputs.dir snippetsDir
-	dependsOn test
+  inputs.dir snippetsDir
+  dependsOn test
+}
+processResources.dependsOn('copySubmodule')
+
+task copySubmodule(type: Copy) {
+  from './mysteam-config'
+  include '*.yaml'
+  into './src/main/resources'
 }
