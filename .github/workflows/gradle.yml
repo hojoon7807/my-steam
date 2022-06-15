@@ -66,6 +66,7 @@ jobs:
         IMAGE_TAG: ${{steps.prep.outputs.tag}}
       with:
         context: .
+        build-args: ENVIRONMENT=dev
         push: true
         tags: ${{env.REGISTRY}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
         cache-from: type=gha
