@@ -11,6 +11,6 @@ public class HelloController {
 
   @GetMapping("/")
   public String home() {
-    return "helloo";
+    return "hellooo";
   }
 }
