@@ -1,5 +1,9 @@
-package com.hojoon.mysteam.config.security;
+package com.hojoon.mysteam.security.jwt;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +21,12 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
   public void commence(HttpServletRequest request, HttpServletResponse response,
       AuthenticationException authException) throws IOException, ServletException {
 
+    ObjectMapper objectMapper = new ObjectMapper();
     log.error("Unauthorized error: {}", authException.getMessage());
-    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+
+    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    response.setContentType(APPLICATION_JSON_VALUE);
+
+    objectMapper.writeValue(response.getOutputStream(), authException.getMessage());
   }
 }
