@@ -1,5 +1,5 @@
 jwt:
-  secret: mysteam
+  secret: secretKey-local-jwt-for-mysteam-project
 
 spring:
   datasource:

@@ -19,3 +19,6 @@ spring:
               descriptor:
                 sql:
                   BasicBinder: TRACE
+
+jwt:
+  secret: secretKey-test-jwt-for-mysteam-project
