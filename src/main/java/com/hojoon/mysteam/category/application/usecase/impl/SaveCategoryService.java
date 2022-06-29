@@ -15,7 +15,7 @@ public class SaveCategoryService implements SaveCategoryUsecase {
 
   @Override
   public Category apply(SaveCategoryCommand saveCategoryCommand) {
-    Category category = new Category(null, saveCategoryCommand.getCategoryName());
+    Category category = new Category(saveCategoryCommand.getCategoryName());
     return saveCategoryPort.saveCategory(category);
   }
 }
