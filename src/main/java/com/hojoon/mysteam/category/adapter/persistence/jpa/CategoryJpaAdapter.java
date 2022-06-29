@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class CategoryJpaAdapter implements SaveCategoryPort {
+class CategoryJpaAdapter implements SaveCategoryPort {
 
   private final CategoryJpaRepository categoryJpaRepository;
   private final CategoryMapper categoryMapper;

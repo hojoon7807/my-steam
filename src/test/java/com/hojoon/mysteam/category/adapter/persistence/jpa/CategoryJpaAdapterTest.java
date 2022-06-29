@@ -23,7 +23,7 @@ class CategoryJpaAdapterTest {
   @DisplayName("카테고리 정보가 유효하면 해당 객체를 성공적으로 저장하고 반환한다")
   void saveNewMember() {
     final String CATEGORY_NAME = "action";
-    Category category = new Category(null, CATEGORY_NAME);
+    Category category = new Category(CATEGORY_NAME);
 
     Category savedCategory = categoryJpaAdapter.saveCategory(category);
     log.info("category id: {}", savedCategory.getId());
