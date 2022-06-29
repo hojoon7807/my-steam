@@ -23,8 +23,7 @@ public class SecurityConfig {
   private final JwtAccessDeniedHanler jwtAccessDeniedHanler;
   private final JwtConfig jwtConfig;
 
-  @Qualifier("memberDetailsService")
-  private final UserDetailsService userDetailsService;
+  private final UserDetailsService customMemberDetailsService;
 
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -49,7 +48,7 @@ public class SecurityConfig {
 
         .and()
         .authorizeRequests()
-        .antMatchers("/", "/signup", "/signin", "/login").permitAll()
+        .antMatchers("/", "/signup", "/signin").permitAll()
         .anyRequest().authenticated()
 
         .and()
