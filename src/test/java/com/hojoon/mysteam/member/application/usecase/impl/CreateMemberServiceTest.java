@@ -48,36 +48,24 @@ class CreateMemberServiceTest {
   void createNewMember() {
     passwordEncoder = new BCryptPasswordEncoder();
 
-    CreateMemberCommand request = CreateMemberCommand.builder()
-        .email("hojoon@gmail.com")
-        .name("hojoon")
-        .phoneNum("01012341234")
-        .password("1234")
-        .build();
+    CreateMemberCommand request = CreateMemberCommand.builder().email("hojoon@gmail.com")
+        .name("hojoon").phoneNum("01012341234").password("1234").build();
 
     String encodedPassword = passwordEncoder.encode(request.getPassword());
 
-    Member member = Member.builder()
-        .id(1L)
-        .email(request.getEmail())
-        .name(request.getName())
-        .role(Role.USER)
-        .phoneNum(request.getPhoneNum())
-        .password(encodedPassword)
-        .build();
+    Member member = Member.builder().id(1L).email(request.getEmail()).name(request.getName())
+        .role(Role.USER).phoneNum(request.getPhoneNum()).password(encodedPassword).build();
 
     when(findMemberPort.findMemberByEmail(any(String.class))).thenReturn(Optional.empty());
     when(saveNewMemberPort.saveNewMember(any())).thenReturn(member);
 
     Member savedMember = createMemberService.apply(request);
 
-    assertAll(
-        () -> assertThat(savedMember.getEmail()).isEqualTo(request.getEmail()),
+    assertAll(() -> assertThat(savedMember.getEmail()).isEqualTo(request.getEmail()),
         () -> assertThat(
             passwordEncoder.matches(request.getPassword(), savedMember.getPassword())).isTrue(),
         () -> verify(findMemberPort, times(1)).findMemberByEmail(any(String.class)),
-        () -> verify(saveNewMemberPort, times(1)).saveNewMember(any(Member.class))
-    );
+        () -> verify(saveNewMemberPort, times(1)).saveNewMember(any(Member.class)));
   }
 
   @Test
@@ -86,13 +74,10 @@ class CreateMemberServiceTest {
     Member member = Member.builder().email("ex").build();
     when(findMemberPort.findMemberByEmail(any(String.class))).thenReturn(Optional.of(member));
 
-    assertThatThrownBy(
-        () -> createMemberService.apply(CreateMemberCommand.builder().email("ex").build()))
-        .isInstanceOf(DuplicatedMemberException.class)
-        .hasMessage("이미 존재하는 회원입니다.");
-    assertAll(
-        () -> verify(findMemberPort, times(1)).findMemberByEmail(any(String.class)),
-        () -> verify(saveNewMemberPort, never()).saveNewMember(any(Member.class))
-    );
+    assertThatThrownBy(() -> createMemberService.apply(
+        CreateMemberCommand.builder().email("ex").build())).isInstanceOf(
+        DuplicatedMemberException.class).hasMessage("이미 존재하는 회원입니다.");
+    assertAll(() -> verify(findMemberPort, times(1)).findMemberByEmail(any(String.class)),
+        () -> verify(saveNewMemberPort, never()).saveNewMember(any(Member.class)));
   }
 }
