@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.AuthenticationException;
@@ -21,8 +20,7 @@ class JwtEntryPointTest {
   @Mock
   private HttpServletResponse response;
 
-  @InjectMocks
-  private JwtEntryPoint jwtEntryPoint;
+  private JwtEntryPoint jwtEntryPoint = new JwtEntryPoint();
 
   @Test
   @DisplayName("인증되지 않은 사용자가 해당 URI에 접근시 UNAUTHORIZED 에러를 응답한다")
