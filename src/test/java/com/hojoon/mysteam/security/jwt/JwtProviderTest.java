@@ -2,7 +2,6 @@ package com.hojoon.mysteam.security.jwt;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.hojoon.mysteam.security.jwt.JwtProvider;
 import io.jsonwebtoken.Jwts;
 import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,7 +62,7 @@ class JwtProviderTest {
   }
 
   @Test
-  @DisplayName("올바른 토큰이 주어지면 토큰 유효성 검사시 false를 반환한다")
+  @DisplayName("만료된 토큰이 주어지면 토큰 유효성 검사시 false를 반환한다")
   void validateWithInvalidToken() {
     Date now = new Date();
     String token = Jwts.builder().setExpiration(new Date(now.getTime() - 1000L * 60)).compact();
