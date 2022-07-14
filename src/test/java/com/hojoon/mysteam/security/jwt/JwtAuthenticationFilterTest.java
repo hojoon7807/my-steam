@@ -69,6 +69,15 @@ class JwtAuthenticationFilterTest {
   }
 
   @Test
+  @DisplayName("요청의 콘텐츠 정보가 읽을 수 없으면 RuntimeException이 발생한다")
+  void authenticationWithNotReadableContentThrowRuntimeException() {
+    request.setServletPath("/signip");
+
+    assertThatThrownBy(() -> jwtAuthenticationFilter.attemptAuthentication(request, response))
+        .isInstanceOf(RuntimeException.class);
+  }
+
+  @Test
   @DisplayName("인증 객체가 존재하지 않으면 successfulAuthentication 메소드가 실행하지 않는다")
   void dontInvokeSuccessfulAuthenticationMethod() throws ServletException, IOException {
     JwtAuthenticationFilter spy = spy(jwtAuthenticationFilter);
