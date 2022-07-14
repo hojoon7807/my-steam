@@ -26,12 +26,15 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class JwtProvider {
 
-  @Value("${jwt.secret}")
+
   private String SECRET_KEY;
   private final String AUTHORITIES_KEY = "auth";
+
+  public JwtProvider(@Value("${jwt.secret}") String SECRET_KEY) {
+    this.SECRET_KEY = SECRET_KEY;
+  }
 
   private Claims parseClaims(String token) {
     return Jwts.parserBuilder()
