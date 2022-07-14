@@ -59,9 +59,7 @@ class JwtAuthenticationFilterTest {
   @DisplayName("/api/signin 으로 접근하지 않으면 해당 필터의 메소드가 작동하지 않는다.")
   void dontWorkFilterMethodWithNotAllowedUri() throws ServletException, IOException {
     JwtAuthenticationFilter spy = spy(jwtAuthenticationFilter);
-    String signInInfo = "{ \"email\" : \"test@gmail.com\", \"password\" : \"1234\" }";
     request.setServletPath("/");
-    request.setContent(signInInfo.getBytes());
 
     spy.doFilter(request, response, chain);
 
@@ -144,9 +142,6 @@ class JwtAuthenticationFilterTest {
 
     UsernamePasswordAuthenticationToken authResult = new UsernamePasswordAuthenticationToken(EMAIL,
         PASSWORD, Collections.singleton(authority));
-
-    when(jwtProvider.generateAccessToken(authResult)).thenReturn("accessToken");
-    when(jwtProvider.generateRefreshToken(authResult)).thenReturn("refreshToken");
 
     jwtAuthenticationFilter.successfulAuthentication(request, response, chain, authResult);
 
