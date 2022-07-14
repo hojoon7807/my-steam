@@ -69,11 +69,21 @@ class JwtAuthorizationFilterTest {
   void dontWorkFilterWithSignupUri() throws ServletException, IOException {
     JwtAuthorizationFilter spy = spy(jwtAuthorizationFilter);
     request.setServletPath("/signup");
-
     spy.doFilter(request, response, chain);
 
     verify(spy, times(1)).shouldNotFilter(request);
     verify(spy, never()).doFilterInternal(request, response, chain);
+  }
+
+  @Test
+  @DisplayName("허용된 URI로 접근시 해당 필터가 작동한다")
+  void doWorkFilterWithAllowedUri() throws ServletException, IOException {
+    JwtAuthorizationFilter spy = spy(jwtAuthorizationFilter);
+    request.setServletPath("/");
+    spy.doFilter(request, response, chain);
+
+    verify(spy, times(1)).shouldNotFilter(request);
+    verify(spy, times(1)).doFilterInternal(request, response, chain);
   }
 
   @Test
