@@ -35,11 +35,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     ObjectMapper objectMapper = new ObjectMapper();
     SignInMemberRequest signInMember = null;
-    try {
+    try{
       signInMember = objectMapper.readValue(request.getInputStream(), SignInMemberRequest.class);
       log.info("User Email is: {}", signInMember.getEmail());
-    } catch (Exception e) {
-      log.error("error: {}", e.getMessage());
+    } catch (IOException e) {
+      // 임시 예외 throw customException 필요
+      throw new RuntimeException(e.getMessage());
     }
     UsernamePasswordAuthenticationToken authenticationToken =
         new UsernamePasswordAuthenticationToken(
