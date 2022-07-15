@@ -23,9 +23,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class JwtProvider {
-
 
   private String SECRET_KEY;
   private final String AUTHORITIES_KEY = "auth";
@@ -51,6 +49,7 @@ public class JwtProvider {
   }
 
   private Key getSigningKey(String secretKey) {
+    System.out.println(secretKey);
     byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
     return Keys.hmacShaKeyFor(keyBytes);
   }
