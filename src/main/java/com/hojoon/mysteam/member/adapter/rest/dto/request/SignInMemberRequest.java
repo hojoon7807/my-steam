@@ -9,9 +9,4 @@ public class SignInMemberRequest {
 
   private String email;
   private String password;
-
-  public SignInMemberRequest(String email, String password) {
-    this.email = email;
-    this.password = password;
-  }
 }

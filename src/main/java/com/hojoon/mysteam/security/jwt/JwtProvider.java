@@ -1,11 +1,8 @@
 package com.hojoon.mysteam.security.jwt;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -26,27 +23,25 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class JwtProvider {
 
-  @Value("${jwt.secret}")
   private String SECRET_KEY;
   private final String AUTHORITIES_KEY = "auth";
 
+  public JwtProvider(@Value("${jwt.secret}") String SECRET_KEY) {
+    this.SECRET_KEY = SECRET_KEY;
+  }
+
   private Claims parseClaims(String token) {
-    return Jwts.parserBuilder()
-        .setSigningKey(getSigningKey(SECRET_KEY))
-        .build()
-        .parseClaimsJws(token)
-        .getBody();
+    return Jwts.parserBuilder().setSigningKey(getSigningKey(SECRET_KEY)).build()
+        .parseClaimsJws(token).getBody();
   }
 
   public Authentication getAuthentication(String accessToken) {
     Claims claims = parseClaims(accessToken);
 
     List<SimpleGrantedAuthority> authorities = Arrays.stream(
-            claims.get(AUTHORITIES_KEY).toString().split(","))
-        .map(SimpleGrantedAuthority::new)
+            claims.get(AUTHORITIES_KEY).toString().split(",")).map(SimpleGrantedAuthority::new)
         .collect(Collectors.toList());
 
     UserDetails principal = new User(claims.getSubject(), "", authorities);
@@ -54,6 +49,7 @@ public class JwtProvider {
   }
 
   private Key getSigningKey(String secretKey) {
+    System.out.println(secretKey);
     byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
     return Keys.hmacShaKeyFor(keyBytes);
   }
@@ -70,32 +66,21 @@ public class JwtProvider {
 
   private String doGenerateToken(Authentication authentication, long expireTime) {
     String authorities = authentication.getAuthorities().stream()
-        .map(GrantedAuthority::getAuthority)
-        .collect(Collectors.joining(","));
+        .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
 
     Date now = new Date();
 
-    return Jwts.builder()
-        .setSubject(authentication.getName())
-        .claim(AUTHORITIES_KEY, authorities)
-        .setIssuedAt(now)
-        .setExpiration(new Date(now.getTime() + expireTime))
-        .signWith(getSigningKey(SECRET_KEY), SignatureAlgorithm.HS256)
-        .compact();
+    return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities)
+        .setIssuedAt(now).setExpiration(new Date(now.getTime() + expireTime))
+        .signWith(getSigningKey(SECRET_KEY), SignatureAlgorithm.HS256).compact();
   }
 
   public boolean validateToken(String token) {
     try {
-      Jwts.parserBuilder().setSigningKey(getSigningKey(SECRET_KEY)).build().parseClaimsJws(token);
+      parseClaims(token);
       return true;
-    } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-      log.info("잘못된 JWT 서명입니다.");
-    } catch (ExpiredJwtException e) {
-      log.info("만료된 JWT 토큰입니다.");
-    } catch (UnsupportedJwtException e) {
-      log.info("지원되지 않는 JWT 토큰입니다.");
-    } catch (IllegalArgumentException e) {
-      log.info("JWT 토큰이 잘못되었습니다.");
+    } catch (Exception e) {
+      log.info(e.getMessage());
     }
     return false;
   }

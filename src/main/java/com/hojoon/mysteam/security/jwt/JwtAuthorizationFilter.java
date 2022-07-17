@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Slf4j
@@ -41,5 +42,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
   private String resolveToken(HttpServletRequest request, String tokenName) {
     Cookie cookie = cookieUtil.getCookie(request, tokenName);
     return cookie != null ? cookie.getValue() : null;
+  }
+
+  @Override
+  protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+    return(new AntPathMatcher().match("/signin", request.getServletPath())
+        || new AntPathMatcher().match("/signup", request.getServletPath()));
   }
 }

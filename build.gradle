@@ -24,6 +24,13 @@ jacocoTestReport {
     xml.required = true
     csv.required = false
   }
+
+  afterEvaluate {
+    classDirectories.setFrom(files(classDirectories.files.collect {
+      fileTree(dir: it, exclude: ["com/hojoon/mysteam/token/**/*",
+                                  "com/hojoon/mysteam/MysteamApplication.*"])
+    }))
+  }
 }
 
 test {
@@ -46,6 +53,12 @@ task testCoverage(type: Test) {
 }
 
 jacocoTestCoverageVerification {
+  afterEvaluate {
+    classDirectories.setFrom(files(classDirectories.files.collect {
+      fileTree(dir: it, exclude: ["com/hojoon/mysteam/token/**/*",
+                                  "com/hojoon/mysteam/MysteamApplication.*"])
+    }))
+  }
   violationRules {
     rule {
       element = "CLASS"
@@ -53,12 +66,12 @@ jacocoTestCoverageVerification {
       limit {
         counter = "LINE"
         value = "COVEREDRATIO"
-        minimum = 0.00
+        minimum = 1.00
       }
       limit {
         counter = "METHOD"
         value = "COVEREDRATIO"
-        minimum = 0.00
+        minimum = 1.00
       }
     }
   }
