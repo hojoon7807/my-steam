@@ -21,6 +21,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
   private final JwtProvider jwtProvider;
   private final CookieUtil cookieUtil;
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
   public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
       JwtProvider jwtProvider, CookieUtil cookieUtil) {
@@ -33,18 +34,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   public Authentication attemptAuthentication(HttpServletRequest request,
       HttpServletResponse response) throws AuthenticationException {
 
-    ObjectMapper objectMapper = new ObjectMapper();
     SignInMemberRequest signInMember = null;
-    try{
+    try {
       signInMember = objectMapper.readValue(request.getInputStream(), SignInMemberRequest.class);
       log.info("User Email is: {}", signInMember.getEmail());
     } catch (IOException e) {
       // 임시 예외 throw customException 필요
       throw new RuntimeException(e.getMessage());
     }
-    UsernamePasswordAuthenticationToken authenticationToken =
-        new UsernamePasswordAuthenticationToken(
-            signInMember.getEmail(), signInMember.getPassword());
+    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+        signInMember.getEmail(), signInMember.getPassword());
 
     return getAuthenticationManager().authenticate(authenticationToken);
   }
