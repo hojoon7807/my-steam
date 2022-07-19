@@ -35,7 +35,7 @@ class CategoryJpaAdapterTest extends AbstractContainerBaseTest {
   }
 
   @Test
-  @DisplayName("DB에 카테고리 정보가 존재하지 않으면 Empty List를 반환한다")
+  @DisplayName("카테고리 정보가 존재하지 않으면 Empty List를 반환한다")
   void findAllCategoriesReturnEmptyList() {
     List<Category> categories = categoryJpaAdapter.findAllCategories();
 
