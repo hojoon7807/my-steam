@@ -50,7 +50,6 @@ class GetAllCategoryControllerTest {
 
     mockMvc.perform(get("/categories").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.length()", is(2)))
-        .andDo(print());
+        .andExpect(jsonPath("$.length()", is(2)));
   }
 }
