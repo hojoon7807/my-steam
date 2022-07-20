@@ -1,5 +1,7 @@
-insert into category (category_name)
-value ("HORROR");
+용INSERT
+INTO category (category_name)
+  VALUE ("horror");
 
-insert into category (category_name)
-  value ("ACTION");
+INSERT
+INTO category (category_name)
+  VALUE ("action");
