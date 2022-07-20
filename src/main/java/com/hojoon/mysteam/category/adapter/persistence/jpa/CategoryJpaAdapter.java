@@ -21,7 +21,7 @@ class CategoryJpaAdapter implements SaveCategoryPort, FindCategoryPort {
     List<CategoryJpaEntity> categoryJpaEntities = categoryJpaRepository.findAll();
 
     return categoryJpaEntities.stream()
-        .map(categoryJpaEntity -> categoryMapper.toDomain(categoryJpaEntity))
+        .map(categoryMapper::toDomain)
         .collect(Collectors.toList());
   }
 
