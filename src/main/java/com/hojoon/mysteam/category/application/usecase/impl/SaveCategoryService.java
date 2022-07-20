@@ -6,13 +6,14 @@ import com.hojoon.mysteam.category.domain.model.Category;
 import com.hojoon.mysteam.category.domain.model.repository.SaveCategoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class SaveCategoryService implements SaveCategoryUsecase {
 
   private final SaveCategoryPort saveCategoryPort;
-
+  @Transactional
   @Override
   public Category apply(SaveCategoryCommand saveCategoryCommand) {
     Category category = new Category(saveCategoryCommand.getCategoryName());
