@@ -1,4 +1,4 @@
-용INSERT
+INSERT
 INTO category (category_name)
   VALUE ("horror");
 
