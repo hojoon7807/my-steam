@@ -57,9 +57,9 @@ class AddCatgoryControllerTest {
 
     when(saveCategoryUsecase.apply(any(SaveCategoryCommand.class))).thenReturn(savedCategory);
 
-    ResultActions resultActions = mockMvc.perform(
-            post("/categories").contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(addCategoryRequest)))
+    mockMvc.perform(post("/categories")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(addCategoryRequest)))
         .andExpect(status().isCreated())
         .andExpect(header().string("location", "http://localhost/categories/" + ID));
 
