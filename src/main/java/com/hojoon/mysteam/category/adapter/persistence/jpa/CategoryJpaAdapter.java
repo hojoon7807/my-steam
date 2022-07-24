@@ -23,7 +23,9 @@ class CategoryJpaAdapter implements SaveCategoryPort, FindCategoryPort, DeleteCa
   public List<Category> findAllCategories() {
     List<CategoryJpaEntity> categoryJpaEntities = categoryJpaRepository.findAll();
 
-    return categoryJpaEntities.stream().map(categoryMapper::toDomain).collect(Collectors.toList());
+    return categoryJpaEntities.stream()
+        .map(categoryMapper::toDomain)
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -42,7 +44,7 @@ class CategoryJpaAdapter implements SaveCategoryPort, FindCategoryPort, DeleteCa
     categoryJpaRepository.delete(categoryJpaEntity);
   }
 
-  public Optional<CategoryJpaEntity> findCategoryById(Long id) {
+  Optional<CategoryJpaEntity> findCategoryById(Long id) {
     return categoryJpaRepository.findById(id);
   }
 }
