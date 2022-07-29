@@ -6,6 +6,7 @@ import com.hojoon.mysteam.category.domain.model.Category;
 import com.hojoon.mysteam.category.domain.model.repository.DeleteCategoryPort;
 import com.hojoon.mysteam.category.domain.model.repository.FindCategoryPort;
 import com.hojoon.mysteam.category.domain.model.repository.SaveCategoryPort;
+import com.hojoon.mysteam.category.domain.model.repository.UpdateCategoryPort;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,7 +15,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-class CategoryJpaAdapter implements SaveCategoryPort, FindCategoryPort, DeleteCategoryPort {
+class CategoryJpaAdapter implements SaveCategoryPort, FindCategoryPort, DeleteCategoryPort,
+    UpdateCategoryPort {
 
   private final CategoryJpaRepository categoryJpaRepository;
   private final CategoryMapper categoryMapper;
@@ -38,13 +40,24 @@ class CategoryJpaAdapter implements SaveCategoryPort, FindCategoryPort, DeleteCa
 
   @Override
   public void deleteCategoryById(Long id) {
-    CategoryJpaEntity categoryJpaEntity = findCategoryById(id).orElseThrow(
+    CategoryJpaEntity categoryJpaEntity = findCategoryEntityById(id).orElseThrow(
         NotFoundCategoryException::new);
 
     categoryJpaRepository.delete(categoryJpaEntity);
   }
 
-  Optional<CategoryJpaEntity> findCategoryById(Long id) {
+  @Override
+  public Optional<Category> findCategoryById(Long categoryId) {
+    return categoryJpaRepository.findById(categoryId)
+        .map(categoryMapper::toDomain);
+  }
+
+  private Optional<CategoryJpaEntity> findCategoryEntityById(Long id) {
     return categoryJpaRepository.findById(id);
+  }
+
+  @Override
+  public Category updateCategory(Category updateCategory) {
+    return saveCategory(updateCategory);
   }
 }
