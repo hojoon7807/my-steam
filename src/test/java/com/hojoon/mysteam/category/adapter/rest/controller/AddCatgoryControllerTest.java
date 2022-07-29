@@ -47,7 +47,7 @@ class AddCatgoryControllerTest {
 
   @Test
   @DisplayName("카테고리 추가 요청 정보를 성공적으로 저장하고, 응답 객체를 반환한다")
-  void memberSave() throws Exception {
+  void categorySave() throws Exception {
     final Long ID = 1L;
     final String CATEGORY_NAME = "action";
 
