@@ -20,12 +20,12 @@ public class UpdateCategoryService implements UpdateCategoryUsecase {
   @Override
   @Transactional
   public Category apply(UpdateCategoryCommand updateCategoryCommand) {
-    Category findedCategory = validateCategory(updateCategoryCommand.getCategoryId());
+    Category findedCategory = findCategory(updateCategoryCommand.getCategoryId());
     findedCategory.changeCategoryName(updateCategoryCommand.getCategoryName());
     return updateCategoryPort.updateCategory(findedCategory);
   }
 
-  private Category validateCategory(Long categoryId) {
+  private Category findCategory(Long categoryId) {
     return findCategoryPort.findCategoryById(categoryId).orElseThrow(
         NotFoundCategoryException::new);
   }
