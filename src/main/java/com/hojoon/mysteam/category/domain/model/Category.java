@@ -15,4 +15,8 @@ public class Category {
     this.id = id;
     this.categoryName = categoryName;
   }
+
+  public void changeCategoryName(String categoryName) {
+    this.categoryName = categoryName;
+  }
 }

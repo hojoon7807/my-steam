@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.hojoon.mysteam.category.adapter.persistence.exception.NotFoundCategoryException;
-import com.hojoon.mysteam.category.adapter.persistence.jpa.model.CategoryJpaEntity;
 import com.hojoon.mysteam.category.domain.model.Category;
 import com.hojoon.mysteam.common.AbstractContainerBaseTest;
 import com.hojoon.mysteam.common.TCDataJpaTest;
@@ -69,7 +68,7 @@ class CategoryJpaAdapterTest extends AbstractContainerBaseTest {
     Long ID = 1L;
 
     categoryJpaAdapter.deleteCategoryById(ID);
-    Optional<CategoryJpaEntity> deletedCateogry = categoryJpaAdapter.findCategoryById(ID);
+    Optional<Category> deletedCateogry = categoryJpaAdapter.findCategoryById(ID);
 
     assertThat(deletedCateogry).isEmpty();
   }
@@ -80,9 +79,22 @@ class CategoryJpaAdapterTest extends AbstractContainerBaseTest {
   void findJpaCategoryByValidId() {
     Long ID = 1L;
 
-    Optional<CategoryJpaEntity> findedCategory = categoryJpaAdapter.findCategoryById(ID);
+    Optional<Category> findedCategory = categoryJpaAdapter.findCategoryById(ID);
 
     assertThat(findedCategory).isNotEmpty().hasValueSatisfying(
         categoryJpaEntity -> assertThat(categoryJpaEntity.getId()).isEqualTo(ID));
+  }
+
+  @Test
+  @DisplayName("정상적으로 카테고리 정보를 수정하고 수정된 카테고리를 반환한다")
+  @Sql("CategoryJpaAdapterTest.sql")
+  void updateJpaCategoryByValidCategory() {
+    Long ID = 1L;
+    String CATEGORY_NAME = "UPDATED";
+    Category category = new Category(ID, CATEGORY_NAME);
+
+    Category updatedCategory = categoryJpaAdapter.updateCategory(category);
+
+    assertThat(updatedCategory.getCategoryName()).isEqualTo(CATEGORY_NAME);
   }
 }
