@@ -46,7 +46,7 @@ class DeleteCatgoryControllerTest {
     ArgumentCaptor<Long> idCapture = ArgumentCaptor.forClass(Long.class);
     doNothing().when(deleteCategoryUsecase).accept(idCapture.capture());
 
-    mockMvc.perform(delete("/categories/" + PATH)).andExpect(status().isNoContent());
+    mockMvc.perform(delete("/admin/categories/" + PATH)).andExpect(status().isNoContent());
 
     assertThat(idCapture.getValue()).isEqualTo(PATH);
   }
@@ -60,7 +60,7 @@ class DeleteCatgoryControllerTest {
     doThrow(new NotFoundCategoryException()).when(deleteCategoryUsecase)
         .accept(idCapture.capture());
 
-    mockMvc.perform(delete("/categories/" + PATH)).andExpect(result -> assertAll(
+    mockMvc.perform(delete("/admin/categories/" + PATH)).andExpect(result -> assertAll(
             () -> assertThat(result.getResolvedException()).isInstanceOf(
                 NotFoundCategoryException.class),
             () -> assertThat(result.getResolvedException()).hasMessage("해당 카테고리가 존재하지 않습니다")))
