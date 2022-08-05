@@ -18,8 +18,7 @@ public class AddCategoryController {
 
   private final SaveCategoryUsecase saveCategoryUsecase;
 
-  @PreAuthorize("hasAnyRole('ADMIN')")
-  @PostMapping("categories")
+  @PostMapping("admin/categories")
   public ResponseEntity addCategory(@RequestBody AddCategoryRequest addCategoryRequest) {
     Category category = saveCategoryUsecase.apply(addCategoryRequest.toCommand());
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")

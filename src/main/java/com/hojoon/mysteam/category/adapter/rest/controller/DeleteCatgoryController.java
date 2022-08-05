@@ -17,8 +17,7 @@ public class DeleteCatgoryController {
 
   private final DeleteCategoryUsecase deleteCategoryUsecase;
 
-  @PreAuthorize("hasAnyRole('ADMIN')")
-  @DeleteMapping("categories/{categoryId}")
+  @DeleteMapping("admin/categories/{categoryId}")
   public ResponseEntity deleteCategory(@Min(1) @PathVariable("categoryId") Long categoryId) {
     deleteCategoryUsecase.accept(categoryId);
 

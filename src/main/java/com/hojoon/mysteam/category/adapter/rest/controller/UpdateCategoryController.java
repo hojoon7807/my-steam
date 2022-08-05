@@ -22,8 +22,7 @@ public class UpdateCategoryController {
 
   private final UpdateCategoryUsecase updateCategoryUsecase;
 
-  @PreAuthorize("hasAnyRole('ADMIN')")
-  @PatchMapping("categories/{categoryId}")
+  @PatchMapping("admin/categories/{categoryId}")
   public ResponseEntity<UpdateCategoryResponse> updateCategory(
       @PathVariable @Min(1) Long categoryId,
       @RequestBody UpdateCategoryRequest updateCategoryRequest) {
