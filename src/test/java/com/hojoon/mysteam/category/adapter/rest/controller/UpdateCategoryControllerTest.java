@@ -55,7 +55,7 @@ class UpdateCategoryControllerTest {
     when(updateCategoryUsecase.apply(any(UpdateCategoryCommand.class)))
         .thenReturn(new Category(ID, CATEGORY_NAME));
 
-    mockMvc.perform(patch("/categories/" + ID)
+    mockMvc.perform(patch("/admin/categories/" + ID)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(updateCategoryRequest)))
         .andExpect(status().isOk())
@@ -72,7 +72,7 @@ class UpdateCategoryControllerTest {
     when(updateCategoryUsecase.apply(any(UpdateCategoryCommand.class)))
         .thenThrow(new NotFoundCategoryException());
 
-    mockMvc.perform(patch("/categories/" + ID)
+    mockMvc.perform(patch("/admin/categories/" + ID)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(updateCategoryRequest)))
         .andExpect(
