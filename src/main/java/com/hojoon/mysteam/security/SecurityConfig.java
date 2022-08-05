@@ -3,7 +3,6 @@ package com.hojoon.mysteam.security;
 import com.hojoon.mysteam.security.jwt.JwtAccessDeniedHanler;
 import com.hojoon.mysteam.security.jwt.JwtEntryPoint;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -49,6 +48,7 @@ public class SecurityConfig {
         .and()
         .authorizeRequests()
         .antMatchers("/", "/signup", "/signin").permitAll()
+        .antMatchers("/admin/**").hasAnyRole("ADMIN")
         .anyRequest().authenticated()
 
         .and()
