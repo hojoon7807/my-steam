@@ -3,11 +3,9 @@ package com.hojoon.mysteam.security;
 import com.hojoon.mysteam.security.jwt.JwtAccessDeniedHanler;
 import com.hojoon.mysteam.security.jwt.JwtEntryPoint;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,7 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
   private final JwtEntryPoint jwtEntryPoint;
@@ -51,6 +48,7 @@ public class SecurityConfig {
         .and()
         .authorizeRequests()
         .antMatchers("/", "/signup", "/signin").permitAll()
+        .antMatchers("/admin/**").hasAnyRole("ADMIN")
         .anyRequest().authenticated()
 
         .and()
