@@ -5,6 +5,7 @@ import com.hojoon.mysteam.category.application.usecase.command.SaveCategoryComma
 import com.hojoon.mysteam.category.domain.model.Category;
 import com.hojoon.mysteam.category.domain.model.repository.SaveCategoryPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class SaveCategoryService implements SaveCategoryUsecase {
 
   private final SaveCategoryPort saveCategoryPort;
+
   @Transactional
+  @CacheEvict(value = "categories", allEntries = true)
   @Override
   public Category apply(SaveCategoryCommand saveCategoryCommand) {
     Category category = new Category(saveCategoryCommand.getCategoryName());
