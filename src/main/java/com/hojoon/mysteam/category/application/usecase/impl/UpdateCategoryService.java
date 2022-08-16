@@ -7,6 +7,7 @@ import com.hojoon.mysteam.category.domain.model.Category;
 import com.hojoon.mysteam.category.domain.model.repository.FindCategoryPort;
 import com.hojoon.mysteam.category.domain.model.repository.UpdateCategoryPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ public class UpdateCategoryService implements UpdateCategoryUsecase {
 
   @Override
   @Transactional
+  @CacheEvict(value = "categories", allEntries = true)
   public Category apply(UpdateCategoryCommand updateCategoryCommand) {
     Category findedCategory = findCategory(updateCategoryCommand.getCategoryId());
     findedCategory.changeCategoryName(updateCategoryCommand.getCategoryName());
