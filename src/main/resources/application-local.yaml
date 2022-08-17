@@ -8,6 +8,18 @@ spring:
     username: root
     password: 1234
 
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      format_sql: true
+      ddl-auto: create-drop
+    show-sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+
 management:
   endpoints:
     web:

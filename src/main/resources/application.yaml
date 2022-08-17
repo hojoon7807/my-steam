@@ -12,17 +12,6 @@ spring:
   profiles:
     active:
       on-profile: local
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      format_sql: true
-      ddl-auto: create-drop
-    show-sql: true
-    defer-datasource-initialization: true
-
-  sql:
-    init:
-      mode: always
 
   logging:
     level:
