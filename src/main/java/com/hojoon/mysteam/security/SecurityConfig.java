@@ -47,7 +47,7 @@ public class SecurityConfig {
 
         .and()
         .authorizeRequests()
-        .antMatchers("/", "/signup", "/signin", "/actuator/**", "/categories/").permitAll()
+        .antMatchers("/", "/signup", "/signin", "/actuator/**", "/categories").permitAll()
         .antMatchers("/admin/**").hasAnyRole("ADMIN")
         .anyRequest().authenticated()
 
@@ -58,8 +58,7 @@ public class SecurityConfig {
 
   @Bean
   public AuthenticationManager authenticationManager(
-      AuthenticationConfiguration authenticationConfiguration
-  ) throws Exception {
+      AuthenticationConfiguration authenticationConfiguration) throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
   }
 
