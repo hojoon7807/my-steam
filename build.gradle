@@ -27,8 +27,13 @@ jacocoTestReport {
 
   afterEvaluate {
     classDirectories.setFrom(files(classDirectories.files.collect {
-      fileTree(dir: it, exclude: ["com/hojoon/mysteam/token/**/*",
-                                  "com/hojoon/mysteam/MysteamApplication.*"])
+      fileTree(
+          dir: it,
+          exclude: ["com/hojoon/mysteam/token/**/*",
+                    "com/hojoon/mysteam/MysteamApplication.*",
+                    "com/hojoon/mysteam/config/CacheConfig.*"
+          ]
+      )
     }))
   }
 }
